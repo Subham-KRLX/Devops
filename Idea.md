@@ -1,8 +1,8 @@
-# Project Idea: OCEaN
+# Project Idea: SparkSpirit Shop
 
-I'm building a premium fashion e-commerce site called **OCEaN**. 
+I'm building a premium fashion e-commerce site called **SparkSpirit Shop**. 
 
-The main goal is to create something that feels really high-end and minimalist. I saw some designs on Behance that I'm using for inspiration—lots of clean white space, bold black serif fonts (especially for that big OCEaN logo), and really high-quality photos. It’s all about that high-fashion vibe while still being easy to use.
+The main goal is to create something that feels really high-end and minimalist. I saw some designs on Behance that I'm using for inspiration—lots of clean white space, bold black serif fonts (especially for the branding), and really high-quality photos. It’s all about that high-fashion vibe while still being easy to use.
 
 ### What it’s going to have:
 *   **A killer homepage:** Huge hero images, simple nav (Shop, Products, etc.), and clear sections for New Arrivals and Best Sellers.
