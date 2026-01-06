@@ -16,9 +16,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Root Route (optional, just to show something)
-app.get('/', (req, res) => {
-  res.send('ShopSmart Backend Service');
-});
+// Routes
+const productRoutes = require('./routes/productRoutes');
+
+app.use('/api/products', productRoutes);
 
 module.exports = app;
