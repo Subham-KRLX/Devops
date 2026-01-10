@@ -11,14 +11,16 @@ app.use(express.json());
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    message: 'ShopSmart Backend is running',
+    message: 'SparkSpirit Shop Backend is running',
     timestamp: new Date().toISOString()
   });
 });
 
 // Routes
 const productRoutes = require('./routes/productRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
 
 module.exports = app;
