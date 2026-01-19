@@ -14,6 +14,10 @@ A premium fashion e-commerce site designed for a high-end, minimalist aesthetic.
 - Full CRUD for products and categories
 - Smooth user flow: Home -> Category -> Product -> Cart
 
+## Project Roadmap
+
+We are following a structured 2-month development plan. See the [ROADMAP](./ROADMAP.md) for details.
+
 ## Development Instructions
 
 1.  Use SQLITE3 for database storage implementation
