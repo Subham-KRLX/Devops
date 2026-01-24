@@ -1,7 +1,6 @@
 # SparkSpirit Shop Development Roadmap
 
 This document outlines the development plan to complete the SparkSpirit Shop project within a 2-month timeline (8 weeks).
-
 **Start Date:** Jan 20, 2026
 **Target Completion:** March 20, 2026
 
