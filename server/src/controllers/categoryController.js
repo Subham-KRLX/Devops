@@ -12,7 +12,6 @@ exports.createCategory = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 exports.getAllCategories = async (req, res) => {
     try {
         const categories = await prisma.category.findMany({
@@ -27,7 +26,6 @@ exports.getAllCategories = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 exports.getCategoryById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -41,7 +39,7 @@ exports.getCategoryById = async (req, res) => {
                     },
                 },
             },
-        });
+        })
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
