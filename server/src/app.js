@@ -24,5 +24,19 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/orders', require('./routes/orderRoutes'));
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+// Health Check Route
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'SparkSpirit Shop Backend is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
