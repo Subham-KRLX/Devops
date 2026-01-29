@@ -11,7 +11,7 @@ This document outlines the development plan to complete the SparkSpirit Shop pro
 - [x] Basic Express Server Setup
 - [x] Prisma Schema (User, Product, Category, Order)
 - [x] Product & Category CRUD APIs
-- [ ] **Authentication System:** Implement User Signup/Login (JWT).
+- [x] **Authentication System:** Implement User Signup/Login (JWT).
 - [ ] **Cart & Order Schema:** Finalize database models for shopping cart and orders.
 - [ ] **Error Handling & Validation:** Add Zod validation and global error handlers.
 
