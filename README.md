@@ -5,9 +5,7 @@
 SparkSpirit Shop is a modern e-commerce platform built with a focus on clean design ("High-Fashion Vibe"), performance, and a seamless user experience.
 
 ---
-
 ## 🛠️ Tech Stack
-
 ### **Backend**
 - **Node.js & Express**: Robust REST API architecture
 - **Prisma ORM**: Type-safe database access
