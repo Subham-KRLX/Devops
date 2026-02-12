@@ -4,36 +4,30 @@ const prisma = new PrismaClient();
 async function main() {
     console.log('🌱 Starting seed...');
 
-    // Clear existing data
     await prisma.productImage.deleteMany();
     await prisma.productVariant.deleteMany();
     await prisma.product.deleteMany();
     await prisma.category.deleteMany();
     await prisma.testimonial.deleteMany();
 
-    // Create Categories
     const menCategory = await prisma.category.create({
         data: {
             name: 'Men',
-            image: 'https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=800',
         },
     });
 
     const womenCategory = await prisma.category.create({
         data: {
             name: 'Women',
-            image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800',
         },
     });
 
     const accessoriesCategory = await prisma.category.create({
         data: {
             name: 'Accessories',
-            image: 'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?w=800',
         },
     });
 
-    // Create Products - Men
     await prisma.product.create({
         data: {
             name: 'Premium Cotton Turtleneck',
@@ -42,8 +36,6 @@ async function main() {
             categoryId: menCategory.id,
             images: {
                 create: [
-                    { url: 'https://images.unsplash.com/photo-1564257577154-75c8f6706740?w=800' },
-                    { url: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800' },
                 ],
             },
             variants: {
@@ -64,7 +56,6 @@ async function main() {
             categoryId: menCategory.id,
             images: {
                 create: [
-                    { url: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800' },
                 ],
             },
             variants: {
@@ -77,7 +68,6 @@ async function main() {
         },
     });
 
-    // Create Products - Women
     await prisma.product.create({
         data: {
             name: 'Tailored Trench Coat',
@@ -86,8 +76,6 @@ async function main() {
             categoryId: womenCategory.id,
             images: {
                 create: [
-                    { url: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=800' },
-                    { url: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800' },
                 ],
             },
             variants: {
@@ -100,7 +88,6 @@ async function main() {
         },
     });
 
-    // Create Testimonials
     await prisma.testimonial.create({
         data: {
             name: 'Sarah Mitchell',

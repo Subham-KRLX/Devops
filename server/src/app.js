@@ -3,11 +3,9 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Health Check Route
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -16,7 +14,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Routes
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -27,7 +24,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', require('./routes/orderRoutes'));
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
-// Health Check Route
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
