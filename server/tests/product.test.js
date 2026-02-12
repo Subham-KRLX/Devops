@@ -8,7 +8,6 @@ describe('Product API', () => {
     let categoryId;
 
     beforeAll(async () => {
-        // Create a category first
         const category = await prisma.category.create({
             data: { name: 'Test Category' }
         });

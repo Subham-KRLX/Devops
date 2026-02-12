@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 describe('Authentication Endpoints', () => {
     beforeAll(async () => {
-        // Clean up database before tests
         await prisma.user.deleteMany({ where: { email: 'test@example.com' } });
     });
 
