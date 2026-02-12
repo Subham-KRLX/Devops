@@ -4,7 +4,6 @@ const { z } = require('zod');
 
 const prisma = new PrismaClient();
 
-// Schema validation for creating an order
 const createOrderSchema = z.object({
     items: z.array(z.object({
         productId: z.number(),
@@ -12,9 +11,6 @@ const createOrderSchema = z.object({
     })).min(1),
 });
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
 const createOrder = asyncHandler(async (req, res) => {
     const { items } = createOrderSchema.parse(req.body);
 
@@ -23,7 +19,6 @@ const createOrder = asyncHandler(async (req, res) => {
         throw new Error('No order items');
     }
 
-    // Calculate total and prepare order items data
     let totalAmount = 0;
     const orderItemsData = [];
 
@@ -47,7 +42,6 @@ const createOrder = asyncHandler(async (req, res) => {
         });
     }
 
-    // Create order and order items in a transaction
     const order = await prisma.order.create({
         data: {
             userId: req.user.id,
@@ -64,9 +58,6 @@ const createOrder = asyncHandler(async (req, res) => {
     res.status(201).json(order);
 });
 
-// @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
-// @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
     const orders = await prisma.order.findMany({
         where: {

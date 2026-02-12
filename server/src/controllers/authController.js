@@ -19,10 +19,8 @@ exports.register = asyncHandler(async (req, res) => {
         throw new Error('User already exists');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const user = await prisma.user.create({
         data: {
             email,
@@ -50,7 +48,6 @@ exports.register = asyncHandler(async (req, res) => {
 exports.login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    // Find user
     const user = await prisma.user.findUnique({
         where: { email },
     });
@@ -60,7 +57,6 @@ exports.login = asyncHandler(async (req, res) => {
         throw new Error('Invalid credentials');
     }
 
-    // Verify password
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {

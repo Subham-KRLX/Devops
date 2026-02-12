@@ -56,7 +56,6 @@ exports.getProductById = asyncHandler(async (req, res) => {
 
 exports.updateProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    // Note: Updating variants/images can be complex, keeping it simple for now
     const product = await prisma.product.update({
         where: { id: parseInt(id) },
         data: req.body,
