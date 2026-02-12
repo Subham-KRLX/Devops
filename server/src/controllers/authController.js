@@ -9,7 +9,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 exports.register = asyncHandler(async (req, res) => {
     const { email, password, firstName, lastName } = req.body;
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
         where: { email },
     });
@@ -64,7 +63,6 @@ exports.login = asyncHandler(async (req, res) => {
         throw new Error('Invalid credentials');
     }
 
-    // Generate token
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
 
     res.status(200).json({
