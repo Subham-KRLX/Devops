@@ -19,7 +19,7 @@ describe('Authentication Endpoints', () => {
             .post('/api/auth/register')
             .send({
                 email: 'test@example.com',
-                password: 'password123',
+                password: 'Password@123',
                 firstName: 'Test',
                 lastName: 'User'
             });
@@ -34,7 +34,7 @@ describe('Authentication Endpoints', () => {
             .post('/api/auth/login')
             .send({
                 email: 'test@example.com',
-                password: 'password123'
+                password: 'Password@123'
             });
 
         expect(res.statusCode).toEqual(200);
