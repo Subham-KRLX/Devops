@@ -1,22 +1,31 @@
 services:
+  # Backend API service running on Node.js
   - type: web
     name: shopsmart-backend
     env: node
     plan: free
-    buildCommand: cd server && npm install
-    startCommand: cd server && npm start
+    # Generate Prisma client during build
+    buildCommand: cd server && npm install && npx prisma generate
+    # Deploy migrations and start the server
+    startCommand: cd server && npx prisma migrate deploy && npm start
+    healthCheckPath: /api/health
     envVars:
       - key: PORT
         value: 10000
+      - key: NODE_ENV
+        value: production
 
+  # Frontend static site
   - type: static
     name: shopsmart-frontend
     env: static
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
+    healthCheckPath: /
     envVars:
       - key: VITE_API_URL
         fromService:
           type: web
           name: shopsmart-backend
           property: url
+
