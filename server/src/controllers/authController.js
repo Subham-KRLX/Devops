@@ -6,11 +6,16 @@ const asyncHandler = require('express-async-handler');
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
+const generateToken = (userId) => {
+    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '24h' });
+};
+
 exports.register = asyncHandler(async (req, res) => {
     const { email, password, firstName, lastName } = req.body;
+    const normalizedEmail = email.toLowerCase();
 
     const existingUser = await prisma.user.findUnique({
-        where: { email },
+        where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -22,7 +27,7 @@ exports.register = asyncHandler(async (req, res) => {
 
     const user = await prisma.user.create({
         data: {
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
             firstName,
             lastName,
@@ -30,7 +35,7 @@ exports.register = asyncHandler(async (req, res) => {
     });
 
     // Generate token
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
+    const token = generateToken(user.id);
 
     res.status(201).json({
         message: 'User registered successfully',
@@ -46,9 +51,10 @@ exports.register = asyncHandler(async (req, res) => {
 
 exports.login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
+    const normalizedEmail = email.toLowerCase();
 
     const user = await prisma.user.findUnique({
-        where: { email },
+        where: { email: normalizedEmail },
     });
 
     if (!user) {
@@ -63,7 +69,7 @@ exports.login = asyncHandler(async (req, res) => {
         throw new Error('Invalid credentials');
     }
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
+    const token = generateToken(user.id);
 
     res.status(200).json({
         message: 'Login successful',
