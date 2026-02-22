@@ -14,6 +14,12 @@ const prisma = new PrismaClient();
  * (mocking Prisma instead of Express) and maintains controller purity.
  */
 class AuthService {
+
+    /**
+     * Intentional design: Centralizing token generation ensures that if we ever alter 
+     * our JWT payload structure (e.g., adding roles or session IDs), we only have to 
+     * update it in a single, predictable location.
+     */
     generateToken(userId) {
         return jwt.sign({ userId }, CONFIG.JWT.SECRET, { expiresIn: CONFIG.JWT.EXPIRES_IN });
     }
