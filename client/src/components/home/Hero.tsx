@@ -63,7 +63,7 @@ export function Hero() {
                     The New Standard
                 </motion.p>
 
-                {/* Intentional design: The headline uses a visually tight line-height to feel like editorial print */}
+                {}
                 <motion.h1
                     variants={fadeUp}
                     className="text-fluid-h1 font-serif mb-10 leading-none drop-shadow-sm"

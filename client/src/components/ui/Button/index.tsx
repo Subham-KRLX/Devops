@@ -10,13 +10,6 @@ interface ButtonProps extends HTMLMotionProps<"button"> {
     className?: string;
 }
 
-/**
- * Component: Magnetic Button
- * 
- * Intentional design: We utilize Framer Motion to map the mouse position 
- * to a localized radial gradient. This provides a subtle "glow" or "spotlight"
- * effect under the user's cursor, a hallmark of Behance-level premium interfaces.
- */
 export function Button({
     children,
     variant = 'primary',
@@ -43,7 +36,7 @@ export function Button({
             whileTap={{ scale: 0.98 }}
             {...props}
         >
-            {/* Background Glow Effect (only on primary for contrast) */}
+            {}
             {isPrimary && (
                 <div
                     className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -53,7 +46,7 @@ export function Button({
                 />
             )}
 
-            {/* Button Content */}
+            {}
             <span className="relative z-10 font-sans tracking-widest">{children}</span>
         </motion.button>
     );
