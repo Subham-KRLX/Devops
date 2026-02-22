@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { DESIGN } from '@/lib/constants/design';
+import { Button } from '@/components/ui/Button';
 
 const staggerContainer = {
     hidden: { opacity: 0 },
@@ -28,8 +29,10 @@ const fadeUp = {
 
 export function Hero() {
     return (
-        <section className="relative w-full h-screen min-h-[800px] flex items-center justify-center overflow-hidden bg-white">
-            {}
+        <section
+            className="relative w-full h-screen min-h-[800px] flex items-center justify-center overflow-hidden bg-white"
+            aria-label="Hero Introduction"
+        >
             <motion.div
                 initial={{ scale: 1.1, opacity: 0.8 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -39,7 +42,7 @@ export function Hero() {
                 }}
                 className="absolute inset-0 z-0"
             >
-                <div className="absolute inset-0 bg-black/20 z-10" /> {}
+                <div className="absolute inset-0 bg-black/20 z-10" />
                 <img
                     src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop"
                     alt="Premium Fashion Collection"
@@ -47,7 +50,6 @@ export function Hero() {
                 />
             </motion.div>
 
-            {}
             <motion.div
                 className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto mt-20"
                 variants={staggerContainer}
@@ -61,6 +63,7 @@ export function Hero() {
                     The New Standard
                 </motion.p>
 
+                {/* Intentional design: The headline uses a visually tight line-height to feel like editorial print */}
                 <motion.h1
                     variants={fadeUp}
                     className="text-fluid-h1 font-serif mb-10 leading-none drop-shadow-sm"
@@ -70,9 +73,13 @@ export function Hero() {
                 </motion.h1>
 
                 <motion.div variants={fadeUp}>
-                    <button className="px-10 py-4 border border-white text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <Button
+                        variant="ghost"
+                        className="border-white text-white hover:bg-white hover:text-black"
+                        aria-label="Explore the new collection"
+                    >
                         Explore Collection
-                    </button>
+                    </Button>
                 </motion.div>
             </motion.div>
         </section>

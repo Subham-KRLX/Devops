@@ -10,7 +10,7 @@ import { useState, useEffect, RefObject } from 'react';
  * of premium human-touch to the UI that static CSS cannot replicate.
  */
 export function useMousePosition(ref: RefObject<HTMLElement | null>) {
-    const [mousePosition, setMousePosition] = useState({ x: null, y: null });
+    const [mousePosition, setMousePosition] = useState<{ x: number | null, y: number | null }>({ x: null, y: null });
 
     useEffect(() => {
         const updateMousePosition = (ev: MouseEvent) => {
