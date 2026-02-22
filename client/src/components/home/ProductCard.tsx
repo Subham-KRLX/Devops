@@ -17,7 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {/* Aspect Ratio 3:4 Image Container */}
+            {}
             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                 <AnimatePresence>
                     {isHovered && product.images.hover ? (
@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
                 />
 
-                {/* Quick Add Drawer (Hidden until hover) */}
+                {}
                 <div
                     className="absolute bottom-0 left-0 right-0 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 >
@@ -49,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 </div>
             </div>
 
-            {/* Product Info (Minimalist) */}
+            {}
             <div className="flex justify-between items-start font-sans">
                 <div>
                     <h3 className="text-sm font-medium tracking-wide text-gray-900 mb-1">

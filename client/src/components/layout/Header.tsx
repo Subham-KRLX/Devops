@@ -7,8 +7,7 @@ import Link from 'next/link';
 export function Header() {
     const isScrolled = useScrollThreshold(50);
 
-    // Minimalist badge for cart
-    const cartItemCount = 2; // Hardcoded for 35% frontend scope
+    const cartItemCount = 2; 
 
     return (
         <header
@@ -19,7 +18,7 @@ export function Header() {
         >
             <div className="max-w-[1440px] mx-auto px-[clamp(1rem,5vw,4rem)] flex items-center justify-between">
 
-                {/* Left: Desktop Nav */}
+                {}
                 <nav className="hidden md:flex items-center gap-8">
                     <Link href="/shop" className="text-sm tracking-wide uppercase hover:text-gray-500 transition-colors">
                         Shop
@@ -32,7 +31,7 @@ export function Header() {
                     </Link>
                 </nav>
 
-                {/* Center: Brand Identity (Serif) */}
+                {}
                 <Link
                     href="/"
                     className="font-serif text-2xl md:text-3xl font-bold tracking-tight absolute left-1/2 -translate-x-1/2"
@@ -40,7 +39,7 @@ export function Header() {
                     SparkSpirit
                 </Link>
 
-                {/* Right: Icons */}
+                {}
                 <div className="flex items-center gap-6">
                     <button aria-label="Search" className="hover:text-gray-500 transition-colors">
                         <Search className="w-5 h-5" strokeWidth={1.5} />

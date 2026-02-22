@@ -10,7 +10,6 @@ export function useScrollThreshold(threshold = 50) {
             setIsScrolled(window.scrollY > threshold);
         };
 
-        // Initial check
         handleScroll();
 
         window.addEventListener('scroll', handleScroll, { passive: true });

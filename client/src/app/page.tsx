@@ -8,7 +8,6 @@ import { Newsletter } from '@/components/home/Newsletter';
 import { DESIGN } from '@/lib/constants/design';
 import { Product } from '@/types';
 
-// Mock Data for the 35% frontend demonstration
 const MOCK_PRODUCTS: Product[] = [
   {
     id: '1',

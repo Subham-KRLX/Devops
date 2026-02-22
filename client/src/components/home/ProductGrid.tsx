@@ -24,7 +24,7 @@ export function ProductGrid({ products }: ProductGridProps) {
                 </button>
             </div>
 
-            {/* Asymmetric Grid: every 3rd item spans 2 columns on larger screens */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
                 {products.map((product, index) => (
                     <div

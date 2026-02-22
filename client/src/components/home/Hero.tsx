@@ -29,7 +29,7 @@ const fadeUp = {
 export function Hero() {
     return (
         <section className="relative w-full h-screen min-h-[800px] flex items-center justify-center overflow-hidden bg-white">
-            {/* Background Image with Scale Reveal */}
+            {}
             <motion.div
                 initial={{ scale: 1.1, opacity: 0.8 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -39,7 +39,7 @@ export function Hero() {
                 }}
                 className="absolute inset-0 z-0"
             >
-                <div className="absolute inset-0 bg-black/20 z-10" /> {/* Subtle overlay for text contrast */}
+                <div className="absolute inset-0 bg-black/20 z-10" /> {}
                 <img
                     src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop"
                     alt="Premium Fashion Collection"
@@ -47,7 +47,7 @@ export function Hero() {
                 />
             </motion.div>
 
-            {/* Content */}
+            {}
             <motion.div
                 className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto mt-20"
                 variants={staggerContainer}

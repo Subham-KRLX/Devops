@@ -18,7 +18,7 @@ export const DESIGN = {
             padding: 'clamp(1rem, 5vw, 4rem)',
             maxWidth: '1440px',
         },
-        // Adding extra padding as per Behance-level minimalist requirements
+
         whitespace: {
             sm: '2rem',
             md: '4rem',
@@ -27,7 +27,7 @@ export const DESIGN = {
         }
     },
     animations: {
-        // Custom cubic-bezier for a premium, heavy feel
+
         easing: {
             premium: [0.22, 1, 0.36, 1],
             smooth: [0.4, 0, 0.2, 1],
