@@ -1,7 +1,6 @@
 # SparkSpirit Shop Development Roadmap
 
 This document outlines the development plan to complete the SparkSpirit Shop project.
-
 ## Phase 1: Backend Foundation
 **Goal:** robust API with Authentication and Database schema.
 
