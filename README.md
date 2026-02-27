@@ -1,7 +1,6 @@
 # ✨ SparkSpirit Shop
 
 > **A premium fashion e-commerce experience designed for minimalism and high-end aesthetics.**
-
 SparkSpirit Shop is a modern e-commerce platform built with a focus on clean design ("High-Fashion Vibe"), performance, and a seamless user experience.
 ---
 ## 🛠️ Tech Stack
