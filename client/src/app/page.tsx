@@ -5,6 +5,10 @@ import { Header } from '@/components/layout/Header';
 import { Hero } from '@/components/home/Hero';
 import { ProductGrid } from '@/components/home/ProductGrid';
 import { Newsletter } from '@/components/home/Newsletter';
+import { MarqueeStrip } from '@/components/home/MarqueeStrip';
+import { FeaturedCategories } from '@/components/home/FeaturedCategories';
+import { Testimonials } from '@/components/home/Testimonials';
+import { Footer } from '@/components/layout/Footer';
 import { DESIGN } from '@/lib/constants/design';
 import { Product } from '@/types';
 
@@ -77,8 +81,12 @@ export default function Home() {
       >
         <Header />
         <Hero />
+        <MarqueeStrip />
         <ProductGrid products={MOCK_PRODUCTS} />
+        <FeaturedCategories />
+        <Testimonials />
         <Newsletter />
+        <Footer />
       </motion.main>
     </AnimatePresence>
   );
