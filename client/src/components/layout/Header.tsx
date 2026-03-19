@@ -3,11 +3,13 @@
 import { useScrollThreshold } from '@/hooks/useScrollThreshold';
 import { Search, User, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { useUIStore } from '@/store/useUIStore';
+import { useCartStore } from '@/store/useCartStore';
 
 export function Header() {
     const isScrolled = useScrollThreshold(50);
-
-    const cartItemCount = 2; 
+    const { toggleCart } = useUIStore();
+    const cartCount = useCartStore((state) => state.getCartCount());
 
     return (
         <header
@@ -47,11 +49,15 @@ export function Header() {
                     <button aria-label="User Account" className="hidden sm:block hover:text-gray-500 transition-colors">
                         <User className="w-5 h-5" strokeWidth={1.5} />
                     </button>
-                    <button aria-label="Shopping Cart" className="relative hover:text-gray-500 transition-colors">
+                    <button 
+                        aria-label="Shopping Cart" 
+                        onClick={() => toggleCart(true)}
+                        className="relative hover:text-gray-500 transition-colors"
+                    >
                         <ShoppingCart className="w-5 h-5" strokeWidth={1.5} />
-                        {cartItemCount > 0 && (
+                        {cartCount > 0 && (
                             <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                                {cartItemCount}
+                                {cartCount}
                             </span>
                         )}
                     </button>
