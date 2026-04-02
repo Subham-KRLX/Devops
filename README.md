@@ -19,9 +19,12 @@ SparkSpirit Shop is a modern e-commerce platform built with a focus on clean des
 ## 🚀 Key Features
 
 - **Authentication**: Secure user registration and login with JWT.
-- **Product Management**: Full CRUD operations for Products and Categories (In Progress).
+- **Product Management**: Full CRUD operations for Products and Categories.
 - **Minimalist Design**: Focused on bold typography and high-quality imagery.
 - **Database**: Relational data modeling with Prisma (Users, Products, Categories, Testimonials).
+- **CI/CD**: Automated GitHub Actions for building, linting, and testing both client and server.
+- **Deployment**: Automatic deployment to AWS EC2 via SSH and Docker-Compose.
+- **Testing**: Comprehensive Unit (Jest/Vitest), Integration (Supertest), and E2E (Playwright) testing.
 
 ---
 
@@ -83,12 +86,32 @@ npm run dev
 
 ### 3. Running Tests
 
-The backend includes a comprehensive test suite using Jest and Supertest.
-
+#### Backend Tests (Unit/Integration)
 ```bash
 cd server
 npm test
 ```
+
+#### Frontend Tests (Unit)
+```bash
+cd client
+npm test
+```
+
+#### E2E Tests (Playwright)
+```bash
+# From root
+npm run test:e2e
+```
+
+### 4. CI/CD and Deployment
+
+#### GitHub Actions
+- **Node.js CI**: Automatically runs on push/PR to `main`. It builds and tests both client and server.
+- **Deploy to EC2**: Automatically deploys the latest `main` branch to your AWS EC2 instance. Ensure you have `EC2_HOST`, `EC2_USERNAME`, and `EC2_SSH_KEY` set in your GitHub Repository Secrets.
+
+#### Dependabot
+- Automated weekly checks for package updates to keep the project secure.
 
 ---
 

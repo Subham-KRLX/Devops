@@ -22,12 +22,36 @@ const MOCK_PRODUCT: Product = {
   }
 };
 
+import api from '@/lib/api';
+
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [product, setProduct] = useState<Product>(MOCK_PRODUCT);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('M');
   const addItem = useCartStore((state) => state.addItem);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get(`/products/${id}`);
+        setProduct(response.data);
+      } catch (err) {
+        console.error('Failed to fetch product:', err);
+        setError('Could not load product. Making sure the backend is running!');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading product...</div>;
+  if (error || !product) return <div className="min-h-screen flex items-center justify-center text-rose-500">{error || 'Product not found'}</div>;
 
   const images = [product.images.primary, product.images.hover].filter(Boolean) as string[];
 
