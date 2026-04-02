@@ -5,7 +5,7 @@ const errorMiddleware = {
         next(error);
     },
 
-    errorHandler: (err, req, res, next) => {
+    errorHandler: (err, req, res, _next) => {
         let statusCode = err.statusCode || (res.statusCode === 200 ? 500 : res.statusCode);
         let message = err.message;
 

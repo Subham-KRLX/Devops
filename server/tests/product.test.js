@@ -4,7 +4,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 describe('Product API', () => {
-    let createdProductId;
     let categoryId;
 
     beforeAll(async () => {
@@ -36,7 +35,6 @@ describe('Product API', () => {
             });
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('id');
-        createdProductId = res.body.id;
     });
 
     it('should get all products', async () => {

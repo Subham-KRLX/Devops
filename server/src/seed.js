@@ -22,7 +22,7 @@ async function main() {
         },
     });
 
-    const accessoriesCategory = await prisma.category.create({
+    await prisma.category.create({
         data: {
             name: 'Accessories',
         },
