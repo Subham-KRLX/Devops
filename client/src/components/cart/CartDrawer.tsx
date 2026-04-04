@@ -38,7 +38,7 @@ export function CartDrawer() {
                 <ShoppingBag size={20} />
                 <h2 className="text-lg font-serif tracking-tight">Your Bag ({getCartCount()})</h2>
               </div>
-              <button 
+              <button
                 onClick={() => toggleCart(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
@@ -54,7 +54,7 @@ export function CartDrawer() {
                     <ShoppingBag size={32} />
                   </div>
                   <p className="text-gray-500 font-light italic">Your shopping bag is empty.</p>
-                  <button 
+                  <button
                     onClick={() => toggleCart(false)}
                     className="text-xs tracking-[0.2em] uppercase underline underline-offset-4 hover:text-gray-400 transition-colors"
                   >
@@ -65,32 +65,42 @@ export function CartDrawer() {
                 cart.map((item) => (
                   <div key={item.id} className="flex gap-4 group">
                     <div className="w-24 aspect-[3/4] bg-gray-100 overflow-hidden rounded-sm">
-                      <img src={item.images.primary} alt={item.name} className="w-full h-full object-cover" />
+                      <img
+                        src={item.images.primary}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex-1 flex flex-col">
                       <div className="flex justify-between items-start mb-1">
-                        <h3 className="text-sm font-medium leading-tight max-w-[150px]">{item.name}</h3>
+                        <h3 className="text-sm font-medium leading-tight max-w-[150px]">
+                          {item.name}
+                        </h3>
                         <span className="text-sm font-light">${item.price * item.quantity}</span>
                       </div>
-                      <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-auto">{item.category}</p>
-                      
+                      <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-auto">
+                        {item.category}
+                      </p>
+
                       <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center border border-gray-200 rounded-sm">
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="p-1 hover:bg-gray-50 transition-colors"
                           >
                             <Minus size={14} />
                           </button>
-                          <span className="px-3 text-xs font-medium min-w-[30px] text-center">{item.quantity}</span>
-                          <button 
+                          <span className="px-3 text-xs font-medium min-w-[30px] text-center">
+                            {item.quantity}
+                          </span>
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="p-1 hover:bg-gray-50 transition-colors"
                           >
                             <Plus size={14} />
                           </button>
                         </div>
-                        <button 
+                        <button
                           onClick={() => removeItem(item.id)}
                           className="text-gray-400 hover:text-rose-500 transition-colors"
                         >
@@ -110,8 +120,10 @@ export function CartDrawer() {
                   <span className="text-xs uppercase tracking-[0.2em] font-medium">Subtotal</span>
                   <span className="text-xl font-light">${getCartTotal()}</span>
                 </div>
-                <p className="text-[10px] text-gray-400 italic">Shipping and taxes calculated at checkout.</p>
-                <Link 
+                <p className="text-[10px] text-gray-400 italic">
+                  Shipping and taxes calculated at checkout.
+                </p>
+                <Link
                   href="/checkout"
                   onClick={() => toggleCart(false)}
                   className="w-full bg-black text-white py-5 text-xs tracking-[0.3em] uppercase hover:bg-zinc-900 transition-colors flex items-center justify-center gap-3 drop-shadow-xl"

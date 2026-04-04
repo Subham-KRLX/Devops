@@ -1,18 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
   --color-black: #000000;
-  --color-ghost: #F9F9F9;
+  --color-ghost: #f9f9f9;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
-  html, body {
+  html,
+  body {
     @apply bg-ghost text-black antialiased font-sans;
   }
 

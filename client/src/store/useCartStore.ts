@@ -43,9 +43,7 @@ export const useCartStore = create<CartStore>()(
           return;
         }
         set({
-          cart: get().cart.map((item) =>
-            item.id === productId ? { ...item, quantity } : item
-          ),
+          cart: get().cart.map((item) => (item.id === productId ? { ...item, quantity } : item)),
         });
       },
       clearCart: () => set({ cart: [] }),

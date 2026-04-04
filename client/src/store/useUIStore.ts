@@ -10,6 +10,8 @@ interface UIStore {
 export const useUIStore = create<UIStore>((set) => ({
   isCartOpen: false,
   isMenuOpen: false,
-  toggleCart: (open) => set((state) => ({ isCartOpen: open !== undefined ? open : !state.isCartOpen })),
-  toggleMenu: (open) => set((state) => ({ isMenuOpen: open !== undefined ? open : !state.isMenuOpen })),
+  toggleCart: (open) =>
+    set((state) => ({ isCartOpen: open !== undefined ? open : !state.isCartOpen })),
+  toggleMenu: (open) =>
+    set((state) => ({ isMenuOpen: open !== undefined ? open : !state.isMenuOpen })),
 }));
