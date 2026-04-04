@@ -27,6 +27,11 @@ jobs:
         cd server
         npm ci
 
+    - name: Check Code Formatting
+      run: |
+        cd server
+        npm run format:check
+
     - name: Run Linter
       run: |
         cd server
@@ -58,10 +63,20 @@ jobs:
         cd client
         npm ci
 
+    - name: Check Code Formatting
+      run: |
+        cd client
+        npm run format:check
+
     - name: Run Linter
       run: |
         cd client
         npm run lint
+
+    - name: Run tests
+      run: |
+        cd client
+        npm test
 
     - name: Build
       run: |
