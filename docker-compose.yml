@@ -1,33 +1,17 @@
+version: '3.8'
+
 services:
   server:
-    build: 
-      context: ./server
-      dockerfile: Dockerfile
-    image: krlx26/shopsmart-server:v1
-    container_name: shopsmart-server
+    build: ./server
     ports:
-      - "5001:5000" # Avoid AirPlay conflict on 5000
+      - "5000:5000"
     environment:
-      - PORT=5000
       - DATABASE_URL=file:./dev.db
-    networks:
-      - shopsmart-net
+      - JWT_SECRET=test-secret
 
   client:
-    build: 
-      context: ./client
-      dockerfile: Dockerfile
-    image: krlx26/shopsmart-client:v1
-    container_name: shopsmart-client
+    build: ./client
     ports:
-      - "5173:5173"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:5001/api
+      - "3000:3000"
     depends_on:
       - server
-    networks:
-      - shopsmart-net
-
-networks:
-  shopsmart-net:
-    driver: bridge
