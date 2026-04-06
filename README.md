@@ -345,13 +345,6 @@ npm run test:e2e
 
 ---
 
-## 🗺️ Roadmap
-
-We are following a structured **2-month development plan**.
-Please check [ROADMAP.md](./ROADMAP.md) for the detailed timeline and milestones.
-
----
-
 ## 🤝 Contributing
 
 1. Fork the repository
