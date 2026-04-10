@@ -1,41 +1,19 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
-const ITEMS = [
-  'Free Worldwide Shipping',
-  'Sustainably Sourced',
-  'Premium Quality',
-  'Exclusive Collections',
-  'Free Returns Within 30 Days',
-  'Handcrafted Details',
-];
-
-export function MarqueeStrip() {
-  const repeated = [...ITEMS, ...ITEMS];
+export function Marquee() {
+  const text = 'NEW COLLECTION — SPARKSPIRIT — SS25 — SILENCE & FORM — ';
+  const repeatedText = text.repeat(6);
 
   return (
-    <div
-      className="w-full overflow-hidden bg-black text-white py-3 border-t border-b border-gray-800"
-      aria-label="Brand highlights"
-    >
-      <motion.div
-        className="flex gap-12 whitespace-nowrap w-max"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{
-          repeat: Infinity,
-          repeatType: 'loop',
-          duration: 24,
-          ease: 'linear',
-        }}
-      >
-        {repeated.map((item, i) => (
-          <span key={i} className="text-[11px] tracking-[0.25em] uppercase font-sans font-medium">
-            {item}
-            <span className="mx-6 opacity-40">·</span>
-          </span>
-        ))}
-      </motion.div>
+    <div className="w-full py-5 bg-charcoal border-y border-white/[0.04] overflow-hidden">
+      <div className="flex whitespace-nowrap animate-marquee">
+        <span className="text-label text-cream/40 tracking-[0.25em] text-[10px] md:text-[11px]">
+          {repeatedText}
+        </span>
+        <span className="text-label text-cream/40 tracking-[0.25em] text-[10px] md:text-[11px]">
+          {repeatedText}
+        </span>
+      </div>
     </div>
   );
 }

@@ -1,73 +1,103 @@
 'use client';
 
-import { Product } from '@/types';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { useCartStore } from '@/store/useCartStore';
+import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Product } from '@/types';
+import { useCartStore } from '@/store/useCartStore';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
+  index?: number;
+  variant?: 'default' | 'large';
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, index = 0, variant = 'default' }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const addItem = useCartStore((state) => state.addItem);
+  const addItem = useCartStore((s) => s.addItem);
 
   return (
-    <div
-      className="group relative flex flex-col gap-4"
+    <motion.div
+      className="group relative"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link
-        href={`/products/${product.id}`}
-        className="block relative aspect-[3/4] overflow-hidden bg-gray-100"
-      >
-        <AnimatePresence>
-          {isHovered && product.images.hover ? (
-            <motion.img
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              src={product.images.hover}
-              alt={`${product.name} alternate view`}
-              className="absolute inset-0 w-full h-full object-cover z-10"
-            />
-          ) : null}
-        </AnimatePresence>
-
-        <img
-          src={product.images.primary}
-          alt={product.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-        />
-      </Link>
-
-      <div className="absolute bottom-[72px] left-0 right-0 z-20 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] px-4">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            addItem(product);
-          }}
-          className="w-full bg-black text-white py-4 text-[10px] tracking-[0.2em] uppercase hover:bg-gray-900 shadow-xl"
+      <Link href={`/products/${product.id}`} className="block" data-cursor-hover>
+        {/* Image container */}
+        <div
+          className={`relative overflow-hidden bg-charcoal ${
+            variant === 'large' ? 'aspect-[3/4]' : 'aspect-[3/4]'
+          }`}
         >
-          Quick Add
-        </button>
-      </div>
+          {/* Primary image */}
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className={`object-cover transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              isHovered && product.images[1] ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
+            }`}
+          />
+          {/* Hover image */}
+          {product.images[1] && (
+            <Image
+              src={product.images[1]}
+              alt={`${product.name} alternate`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className={`object-cover absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+              }`}
+            />
+          )}
 
-      <Link href={`/products/${product.id}`} className="flex justify-between items-start font-sans">
-        <div className="flex-1">
-          <h3 className="text-sm font-medium tracking-tight text-gray-900 mb-0.5 group-hover:underline underline-offset-4 decoration-1">
+          {/* Grain overlay */}
+          <div className="absolute inset-0 grain pointer-events-none" />
+
+          {/* New badge */}
+          {product.isNew && (
+            <span className="absolute top-4 left-4 text-[9px] tracking-[0.25em] uppercase bg-gold text-obsidian px-3 py-1 font-medium z-10">
+              New
+            </span>
+          )}
+
+          {/* Add to Cart slide-up */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 z-10"
+            initial={{ y: '100%' }}
+            animate={{ y: isHovered ? '0%' : '100%' }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addItem(product);
+              }}
+              className="w-full bg-cream text-obsidian text-label py-4 hover:bg-gold transition-colors duration-300"
+              data-cursor-hover
+            >
+              Add to Cart
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Product info */}
+        <div className="mt-4 space-y-1">
+          <h3 className="text-sm text-cream/80 font-light tracking-wide">
             {product.name}
           </h3>
-          <p className="text-[10px] text-gray-400 capitalize tracking-widest leading-none">
-            {product.category}
+          <p className="text-sm text-cream/40">
+            ${product.price.toLocaleString()}
           </p>
         </div>
-        <span className="text-sm font-light text-gray-900 tracking-wider">${product.price}</span>
       </Link>
-    </div>
+    </motion.div>
   );
 }

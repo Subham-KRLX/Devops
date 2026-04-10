@@ -1,40 +1,54 @@
 'use client';
 
-import { Product } from '@/types';
+import { motion } from 'framer-motion';
+import { FEATURED_PRODUCTS } from '@/lib/data';
 import { ProductCard } from './ProductCard';
 
-interface ProductGridProps {
-  products: Product[];
-}
-
-export function ProductGrid({ products }: ProductGridProps) {
+export function ProductGrid() {
   return (
-    <section className="py-[clamp(4rem,10vw,8rem)] px-[clamp(1rem,5vw,4rem)] max-w-[1440px] mx-auto bg-ghost">
-      <div className="flex justify-between items-end mb-16">
-        <div>
-          <h2 className="text-fluid-h2 font-serif font-bold tracking-tight mb-4">New Arrivals</h2>
-          <p className="text-gray-500 font-sans tracking-wide">
-            Curated essentials for the modern wardrobe.
-          </p>
-        </div>
-        <button className="hidden md:block pb-1 border-b border-black text-sm tracking-widest uppercase hover:text-gray-600 hover:border-gray-600 transition-colors">
-          View All
-        </button>
-      </div>
-
-      {}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-        {products.map((product, index) => (
-          <div
-            key={product.id}
-            className={`${
-              // Create the asymmetric editorial look
-              index % 3 === 0 ? 'lg:col-span-2 lg:aspect-[16/9]' : 'col-span-1'
-            }`}
+    <section className="py-24 md:py-32">
+      <div className="container-wide">
+        {/* Section header */}
+        <div className="flex items-end justify-between mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <ProductCard product={product} />
-          </div>
-        ))}
+            <p className="text-label text-gold mb-3">Curated</p>
+            <h2 className="text-headline text-cream">Featured Pieces</h2>
+          </motion.div>
+          <motion.a
+            href="/shop"
+            className="hidden md:block text-label text-cream/40 hover:text-cream transition-colors link-gold pb-1"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            data-cursor-hover
+          >
+            View All
+          </motion.a>
+        </div>
+
+        {/* Asymmetric grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {FEATURED_PRODUCTS.map((product, i) => (
+            <div
+              key={product.id}
+              className={`${
+                i === 0 ? 'md:col-span-2 lg:col-span-1 lg:row-span-1' : ''
+              }`}
+            >
+              <ProductCard
+                product={product}
+                index={i}
+                variant={i === 0 ? 'large' : 'default'}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
