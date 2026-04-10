@@ -1,26 +1,26 @@
 const errorMiddleware = {
-  notFound: (req, res, next) => {
-    const error = new Error(`Not Found - ${req.originalUrl}`);
-    res.status(404);
-    next(error);
-  },
+    notFound: (req, res, next) => {
+        const error = new Error(`Not Found - ${req.originalUrl}`);
+        res.status(404);
+        next(error);
+    },
 
-  errorHandler: (err, req, res, _next) => {
-    let statusCode = err.statusCode || (res.statusCode === 200 ? 500 : res.statusCode);
-    let message = err.message;
+    errorHandler: (err, req, res, _next) => {
+        let statusCode = err.statusCode || (res.statusCode === 200 ? 500 : res.statusCode);
+        let message = err.message;
 
-    if (err.name === 'ZodError' || err?.issues) {
-      statusCode = 400;
-      message = 'Validation Error';
-    }
+        if (err.name === 'ZodError' || err?.issues) {
+            statusCode = 400;
+            message = 'Validation Error';
+        }
 
-    res.status(statusCode);
-    res.json({
-      message: message,
-      errors: err?.issues || undefined,
-      stack: process.env.NODE_ENV === 'production' ? null : err.stack,
-    });
-  },
+        res.status(statusCode);
+        res.json({
+            message: message,
+            errors: err?.issues || undefined,
+            stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+        });
+    },
 };
 
 module.exports = errorMiddleware;

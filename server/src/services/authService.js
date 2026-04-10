@@ -7,58 +7,58 @@ const { CONFIG } = require('../constants/config');
 const prisma = new PrismaClient();
 
 class AuthService {
-  generateToken(userId) {
-    return jwt.sign({ userId }, CONFIG.JWT.SECRET, { expiresIn: CONFIG.JWT.EXPIRES_IN });
-  }
-
-  async register({ email, password, firstName, lastName }) {
-    const normalizedEmail = email.toLowerCase();
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
-    });
-
-    if (existingUser) {
-      throw new AppError('User already exists', 400);
+    generateToken(userId) {
+        return jwt.sign({ userId }, CONFIG.JWT.SECRET, { expiresIn: CONFIG.JWT.EXPIRES_IN });
     }
 
-    const hashedPassword = await bcrypt.hash(password, CONFIG.SECURITY.SALT_ROUNDS);
+    async register({ email, password, firstName, lastName }) {
+        const normalizedEmail = email.toLowerCase();
 
-    const user = await prisma.user.create({
-      data: {
-        email: normalizedEmail,
-        password: hashedPassword,
-        firstName,
-        lastName,
-      },
-    });
+        const existingUser = await prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
 
-    const token = this.generateToken(user.id);
+        if (existingUser) {
+            throw new AppError('User already exists', 400);
+        }
 
-    return { user, token };
-  }
+        const hashedPassword = await bcrypt.hash(password, CONFIG.SECURITY.SALT_ROUNDS);
 
-  async login({ email, password }) {
-    const normalizedEmail = email.toLowerCase();
+        const user = await prisma.user.create({
+            data: {
+                email: normalizedEmail,
+                password: hashedPassword,
+                firstName,
+                lastName,
+            },
+        });
 
-    const user = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
-    });
+        const token = this.generateToken(user.id);
 
-    if (!user) {
-      throw new AppError('Invalid credentials', 401);
+        return { user, token };
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    async login({ email, password }) {
+        const normalizedEmail = email.toLowerCase();
 
-    if (!isValidPassword) {
-      throw new AppError('Invalid credentials', 401);
+        const user = await prisma.user.findUnique({
+            where: { email: normalizedEmail },
+        });
+
+        if (!user) {
+            throw new AppError('Invalid credentials', 401);
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if (!isValidPassword) {
+            throw new AppError('Invalid credentials', 401);
+        }
+
+        const token = this.generateToken(user.id);
+
+        return { user, token };
     }
-
-    const token = this.generateToken(user.id);
-
-    return { user, token };
-  }
 }
 
 module.exports = new AuthService();
