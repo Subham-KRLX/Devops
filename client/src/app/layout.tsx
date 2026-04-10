@@ -1,24 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-});
-
-const playfair = Playfair_Display({
-  variable: '--font-playfair',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
-  title: 'SparkSpirit Shop',
+  title: 'SparkSpirit — High Fashion',
   description:
-    'A premium fashion e-commerce experience designed for minimalism and high-end aesthetics.',
+    'Where minimalism meets unapologetic boldness. A premium fashion e-commerce experience designed for silence, tension, and the quiet power of form.',
 };
 
 import { CartDrawer } from '@/components/cart/CartDrawer';
+import { Navbar } from '@/components/Navbar';
+import { CustomCursor } from '@/components/CustomCursor';
+import { SmoothScroll } from '@/components/SmoothScroll';
+import { PageTransition } from '@/components/PageTransition';
 
 export default function RootLayout({
   children,
@@ -27,11 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${playfair.variable} antialiased bg-[#F9F9F9] text-[#000000]`}
-      >
-        <CartDrawer />
-        {children}
+      <body className="bg-obsidian text-cream font-sans antialiased">
+        <CustomCursor />
+        <SmoothScroll>
+          <Navbar />
+          <CartDrawer />
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </SmoothScroll>
       </body>
     </html>
   );
