@@ -23,7 +23,6 @@ export const useCartStore = create<CartStore>()(
       cart: [],
       addItem: (product, size) => {
         const currentCart = get().cart;
-        const key = `${product.id}-${size || 'default'}`;
         const existingItem = currentCart.find(
           (item) => item.id === product.id && item.selectedSize === size
         );

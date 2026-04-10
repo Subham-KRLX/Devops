@@ -13,9 +13,10 @@ export default function ShopPage() {
   const [sortBy, setSortBy] = useState<SortOption>('newest');
 
   const filteredProducts = useMemo(() => {
-    let result = activeCategory === 'All'
-      ? [...PRODUCTS]
-      : PRODUCTS.filter((p) => p.category === activeCategory);
+    const result =
+      activeCategory === 'All'
+        ? [...PRODUCTS]
+        : PRODUCTS.filter((p) => p.category === activeCategory);
 
     switch (sortBy) {
       case 'price-asc':

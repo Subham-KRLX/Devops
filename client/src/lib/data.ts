@@ -58,8 +58,7 @@ export const PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80',
     ],
     sizes: ['S', 'M', 'L', 'XL'],
-    description:
-      'Grade-A Mongolian cashmere. Relaxed fit, ribbed hem, impossible softness.',
+    description: 'Grade-A Mongolian cashmere. Relaxed fit, ribbed hem, impossible softness.',
     material: '100% Grade-A Cashmere',
     isFeatured: true,
   },
@@ -103,8 +102,7 @@ export const PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80',
     ],
     sizes: ['XS', 'S', 'M'],
-    description:
-      'Floor-length column cut in liquid satin. Minimal, monastic, unapologetic.',
+    description: 'Floor-length column cut in liquid satin. Minimal, monastic, unapologetic.',
     material: '100% Acetate Satin',
     isNew: true,
   },
@@ -118,8 +116,7 @@ export const PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=800&q=80',
     ],
     sizes: ['S', 'M', 'L', 'XL'],
-    description:
-      'Relaxed drop-shoulder linen in stone-washed finish. Wear open or belted.',
+    description: 'Relaxed drop-shoulder linen in stone-washed finish. Wear open or belted.',
     material: '100% Belgian Linen',
   },
 ];
@@ -155,6 +152,14 @@ export const COLLECTIONS: Collection[] = [
   },
 ];
 
-export const CATEGORIES = ['All', 'Outerwear', 'Dresses', 'Knitwear', 'Tailoring', 'Bottoms', 'Tops'];
+export const CATEGORIES = [
+  'All',
+  'Outerwear',
+  'Dresses',
+  'Knitwear',
+  'Tailoring',
+  'Bottoms',
+  'Tops',
+];
 
 export const FEATURED_PRODUCTS = PRODUCTS.filter((p) => p.isFeatured);

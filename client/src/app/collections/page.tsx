@@ -15,11 +15,7 @@ export default function CollectionsPage() {
     offset: ['start start', 'end end'],
   });
 
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ['0%', `-${(COLLECTIONS.length - 1) * 50}%`]
-  );
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', `-${(COLLECTIONS.length - 1) * 50}%`]);
 
   return (
     <main className="min-h-screen">
@@ -93,8 +89,8 @@ export default function CollectionsPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.15, duration: 0.6 }}
           >
-            Each collection is a chapter — an exploration of mood, material, and
-            the negative space between intention and form.
+            Each collection is a chapter — an exploration of mood, material, and the negative space
+            between intention and form.
           </motion.p>
         </div>
       </section>

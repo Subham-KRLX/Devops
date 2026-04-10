@@ -9,7 +9,11 @@ import { useCartStore } from '@/store/useCartStore';
 import { ProductCard } from '@/components/home/ProductCard';
 import { Footer } from '@/components/layout/Footer';
 
-function MagneticButton({ children, onClick, className }: {
+function MagneticButton({
+  children,
+  onClick,
+  className,
+}: {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
@@ -58,7 +62,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-headline text-cream mb-4">Not Found</h1>
-          <Link href="/shop" className="text-label text-gold hover:text-gold-light transition-colors">
+          <Link
+            href="/shop"
+            className="text-label text-gold hover:text-gold-light transition-colors"
+          >
             Return to Shop
           </Link>
         </div>
@@ -66,9 +73,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  const relatedProducts = PRODUCTS.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 3);
+  const relatedProducts = PRODUCTS.filter(
+    (p) => p.id !== product.id && p.category === product.category
+  ).slice(0, 3);
   if (relatedProducts.length < 3) {
-    const more = PRODUCTS.filter((p) => p.id !== product.id && !relatedProducts.includes(p)).slice(0, 3 - relatedProducts.length);
+    const more = PRODUCTS.filter((p) => p.id !== product.id && !relatedProducts.includes(p)).slice(
+      0,
+      3 - relatedProducts.length
+    );
     relatedProducts.push(...more);
   }
 
@@ -83,7 +95,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       {/* Breadcrumb */}
       <div className="pt-28 md:pt-36 pb-6">
         <div className="container-wide flex items-center gap-2 text-[11px] text-cream/30 tracking-wider uppercase">
-          <Link href="/shop" className="hover:text-cream/60 transition-colors">Shop</Link>
+          <Link href="/shop" className="hover:text-cream/60 transition-colors">
+            Shop
+          </Link>
           <span>/</span>
           <span className="text-cream/50">{product.name}</span>
         </div>
@@ -147,7 +161,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 )}
                 <p className="text-label text-cream/30 mb-2">{product.category}</p>
                 <h1 className="text-title text-cream mb-4">{product.name}</h1>
-                <p className="text-2xl text-cream/70 font-serif">${product.price.toLocaleString()}</p>
+                <p className="text-2xl text-cream/70 font-serif">
+                  ${product.price.toLocaleString()}
+                </p>
               </motion.div>
 
               {/* Description */}
@@ -198,9 +214,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <MagneticButton
                 onClick={handleAddToCart}
                 className={`w-full py-4 text-label tracking-[0.2em] transition-all duration-500 ${
-                  added
-                    ? 'bg-gold text-obsidian'
-                    : 'bg-cream text-obsidian hover:bg-gold'
+                  added ? 'bg-gold text-obsidian' : 'bg-cream text-obsidian hover:bg-gold'
                 }`}
               >
                 {added ? 'Added to Cart ✓' : 'Add to Cart'}
@@ -208,8 +222,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
               {/* Details */}
               <div className="space-y-3 pt-4 border-t border-white/[0.04]">
-                <p className="text-[11px] text-cream/20 tracking-wider">Free shipping on orders over $500</p>
-                <p className="text-[11px] text-cream/20 tracking-wider">Complimentary returns within 30 days</p>
+                <p className="text-[11px] text-cream/20 tracking-wider">
+                  Free shipping on orders over $500
+                </p>
+                <p className="text-[11px] text-cream/20 tracking-wider">
+                  Complimentary returns within 30 days
+                </p>
               </div>
             </div>
           </div>

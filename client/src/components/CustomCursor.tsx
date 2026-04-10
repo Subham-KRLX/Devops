@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
@@ -8,18 +8,20 @@ export function CustomCursor() {
   const cursorY = useMotionValue(-100);
   const [isHovering, setIsHovering] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
   const x = useSpring(cursorX, springConfig);
   const y = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Only show custom cursor on non-touch devices
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) {
-      setIsHidden(true);
-      return;
-    }
+    // Check for touch device asynchronously to avoid React 19 cascading render lint error
+    const checkTouch = () => {
+      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setIsTouchDevice(isTouch);
+    };
+
+    const rafId = requestAnimationFrame(checkTouch);
 
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -62,6 +64,7 @@ export function CustomCursor() {
     document.documentElement.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', moveCursor);
       document.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('mouseout', handleMouseOut);
@@ -70,7 +73,7 @@ export function CustomCursor() {
     };
   }, [cursorX, cursorY]);
 
-  if (isHidden) return null;
+  if (isTouchDevice || isHidden) return null;
 
   return (
     <motion.div

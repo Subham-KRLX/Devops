@@ -123,9 +123,7 @@ export function Footer() {
         <p className="text-[10px] text-cream/15 tracking-wider">
           © 2025 SparkSpirit. All rights reserved.
         </p>
-        <p className="text-[10px] text-cream/15 tracking-wider">
-          Designed with silence.
-        </p>
+        <p className="text-[10px] text-cream/15 tracking-wider">Designed with silence.</p>
       </div>
     </footer>
   );

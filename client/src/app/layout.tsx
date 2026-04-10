@@ -25,9 +25,7 @@ export default function RootLayout({
         <SmoothScroll>
           <Navbar />
           <CartDrawer />
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <PageTransition>{children}</PageTransition>
         </SmoothScroll>
       </body>
     </html>

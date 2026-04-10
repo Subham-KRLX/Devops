@@ -90,12 +90,8 @@ export function ProductCard({ product, index = 0, variant = 'default' }: Product
 
         {/* Product info */}
         <div className="mt-4 space-y-1">
-          <h3 className="text-sm text-cream/80 font-light tracking-wide">
-            {product.name}
-          </h3>
-          <p className="text-sm text-cream/40">
-            ${product.price.toLocaleString()}
-          </p>
+          <h3 className="text-sm text-cream/80 font-light tracking-wide">{product.name}</h3>
+          <p className="text-sm text-cream/40">${product.price.toLocaleString()}</p>
         </div>
       </Link>
     </motion.div>

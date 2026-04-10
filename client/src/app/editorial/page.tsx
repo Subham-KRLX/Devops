@@ -37,7 +37,13 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div ref={ref} className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden bg-charcoal">
       <motion.div className="absolute inset-[-15%]" style={{ y }}>
-        <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
       </motion.div>
       <div className="absolute inset-0 grain" />
     </div>
@@ -77,8 +83,7 @@ export default function EditorialPage() {
             transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             Silence
-            <br />
-            & Form
+            <br />& Form
           </motion.h1>
         </div>
       </section>
@@ -93,9 +98,9 @@ export default function EditorialPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            &ldquo;Fashion is not about clothes — it is about a look, a way of life,
-            a philosophy. It&apos;s the tension between what is shown and what is hidden,
-            between silence and statement.&rdquo;
+            &ldquo;Fashion is not about clothes — it is about a look, a way of life, a philosophy.
+            It&apos;s the tension between what is shown and what is hidden, between silence and
+            statement.&rdquo;
           </motion.p>
           <motion.span
             className="inline-block text-label text-gold mt-6"

@@ -60,9 +60,9 @@ export function EditorialSplit() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Each piece in the SparkSpirit collection is an exercise in restraint.
-              We strip away the unnecessary, leaving only the essential — the precise
-              cut, the deliberate drape, the weight of quality that speaks for itself.
+              Each piece in the SparkSpirit collection is an exercise in restraint. We strip away
+              the unnecessary, leaving only the essential — the precise cut, the deliberate drape,
+              the weight of quality that speaks for itself.
             </motion.p>
             <motion.p
               className="text-body text-cream/50 mb-12 max-w-md"
@@ -71,9 +71,8 @@ export function EditorialSplit() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              This is clothing for those who understand that true luxury lies not in
-              excess, but in the spaces between — in silence, in tension, in the quiet 
-              power of form.
+              This is clothing for those who understand that true luxury lies not in excess, but in
+              the spaces between — in silence, in tension, in the quiet power of form.
             </motion.p>
             <motion.a
               href="/collections"

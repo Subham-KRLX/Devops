@@ -37,15 +37,9 @@ export function ProductGrid() {
           {FEATURED_PRODUCTS.map((product, i) => (
             <div
               key={product.id}
-              className={`${
-                i === 0 ? 'md:col-span-2 lg:col-span-1 lg:row-span-1' : ''
-              }`}
+              className={`${i === 0 ? 'md:col-span-2 lg:col-span-1 lg:row-span-1' : ''}`}
             >
-              <ProductCard
-                product={product}
-                index={i}
-                variant={i === 0 ? 'large' : 'default'}
-              />
+              <ProductCard product={product} index={i} variant={i === 0 ? 'large' : 'default'} />
             </div>
           ))}
         </div>

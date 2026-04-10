@@ -32,9 +32,7 @@ export function CartDrawer() {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/[0.04]">
-              <h2 className="text-label text-cream tracking-[0.2em]">
-                Cart ({cart.length})
-              </h2>
+              <h2 className="text-label text-cream tracking-[0.2em]">Cart ({cart.length})</h2>
               <button
                 onClick={() => toggleCart(false)}
                 className="text-cream/40 hover:text-cream transition-colors text-xl"
@@ -81,7 +79,9 @@ export function CartDrawer() {
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm text-cream/80 font-light truncate">{item.name}</h3>
                       {item.selectedSize && (
-                        <p className="text-[11px] text-cream/30 mt-0.5">Size: {item.selectedSize}</p>
+                        <p className="text-[11px] text-cream/30 mt-0.5">
+                          Size: {item.selectedSize}
+                        </p>
                       )}
                       <p className="text-sm text-cream/50 mt-1">${item.price.toLocaleString()}</p>
 
@@ -92,7 +92,9 @@ export function CartDrawer() {
                         >
                           −
                         </button>
-                        <span className="text-xs text-cream/60 w-4 text-center">{item.quantity}</span>
+                        <span className="text-xs text-cream/60 w-4 text-center">
+                          {item.quantity}
+                        </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           className="w-6 h-6 border border-white/10 text-cream/40 text-xs flex items-center justify-center hover:border-cream/30 transition-colors"

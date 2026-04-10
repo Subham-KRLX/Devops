@@ -68,7 +68,11 @@ export function Hero() {
           SS25 Collection
         </motion.p>
 
-        <h1 ref={headlineRef} className="text-display text-cream mb-8" style={{ perspective: '600px' }}>
+        <h1
+          ref={headlineRef}
+          className="text-display text-cream mb-8"
+          style={{ perspective: '600px' }}
+        >
           {words.map((word, wi) => (
             <span key={wi} className="inline-block mr-[0.25em]">
               {word.split('').map((char, ci) => (
@@ -84,8 +88,13 @@ export function Hero() {
           ))}
         </h1>
 
-        <p ref={subtitleRef} className="text-body text-cream/50 max-w-md mx-auto mb-10" style={{ opacity: 0 }}>
-          Where minimalism meets unapologetic boldness. A study in form, shadow, and the spaces between.
+        <p
+          ref={subtitleRef}
+          className="text-body text-cream/50 max-w-md mx-auto mb-10"
+          style={{ opacity: 0 }}
+        >
+          Where minimalism meets unapologetic boldness. A study in form, shadow, and the spaces
+          between.
         </p>
 
         <motion.div
