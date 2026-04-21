@@ -4,6 +4,18 @@
 
 # 1. Update and Install Dependencies
 echo "🚀 Updating system and installing Docker..."
+
+# Add Swap file to prevent Out of Memory errors during build
+if [ ! -f /swapfile ]; then
+    echo "💾 Creating 2GB Swap file for memory management..."
+    sudo fallocate -l 2G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+    echo "✅ Swap file created."
+fi
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install docker.io docker-compose -y
 sudo systemctl start docker
