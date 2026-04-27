@@ -1,0 +1,74 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECS_CLUSTER: sparkspirit-cluster
+  ECS_SERVICE: sparkspirit-service
+  ECS_TASK_FAMILY: sparkspirit-task
+  ECR_SERVER_REPOSITORY: sparkspirit-server
+  ECR_CLIENT_REPOSITORY: sparkspirit-client
+  ECR_NGINX_REPOSITORY: sparkspirit-nginx
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push images
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG -t $REGISTRY/$ECR_SERVER_REPOSITORY:latest ./server
+          docker build --build-arg NEXT_PUBLIC_API_URL=/api -t $REGISTRY/$ECR_CLIENT_REPOSITORY:$IMAGE_TAG -t $REGISTRY/$ECR_CLIENT_REPOSITORY:latest ./client
+          docker build -t $REGISTRY/$ECR_NGINX_REPOSITORY:$IMAGE_TAG -t $REGISTRY/$ECR_NGINX_REPOSITORY:latest ./nginx
+
+          docker push $REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$ECR_SERVER_REPOSITORY:latest
+          docker push $REGISTRY/$ECR_CLIENT_REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$ECR_CLIENT_REPOSITORY:latest
+          docker push $REGISTRY/$ECR_NGINX_REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$ECR_NGINX_REPOSITORY:latest
+
+      - name: Render ECS task definition
+        env:
+          ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          sed \
+            -e "s|__AWS_ACCOUNT_ID__|$ACCOUNT_ID|g" \
+            -e "s|__AWS_REGION__|$AWS_REGION|g" \
+            -e "s|__SERVER_IMAGE__|$REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG|g" \
+            -e "s|__CLIENT_IMAGE__|$REGISTRY/$ECR_CLIENT_REPOSITORY:$IMAGE_TAG|g" \
+            -e "s|__NGINX_IMAGE__|$REGISTRY/$ECR_NGINX_REPOSITORY:$IMAGE_TAG|g" \
+            ecs-task-definition.json > rendered-task-definition.json
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: rendered-task-definition.json
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
