@@ -1,47 +1,55 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# --- SparkSpirit Shop EC2 Deployment Script ---
+AWS_REGION="${AWS_REGION:-us-east-1}"
+ECS_CLUSTER="${ECS_CLUSTER:-sparkspirit-cluster}"
+ECS_SERVICE="${ECS_SERVICE:-sparkspirit-service}"
+ALB_NAME="${ALB_NAME:-sparkspirit-alb}"
 
-# 1. Update and Install Dependencies
-echo "🚀 Updating system and installing Docker..."
+TASK_ARN=$(aws ecs list-tasks \
+  --cluster "$ECS_CLUSTER" \
+  --service-name "$ECS_SERVICE" \
+  --desired-status RUNNING \
+  --query 'taskArns[0]' \
+  --output text \
+  --region "$AWS_REGION")
 
-# Add Swap file to prevent Out of Memory errors during build
-if [ ! -f /swapfile ]; then
-    echo "💾 Creating 2GB Swap file for memory management..."
-    sudo fallocate -l 2G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-    echo "✅ Swap file created."
+if [[ "$TASK_ARN" == "None" || -z "$TASK_ARN" ]]; then
+  echo "No running ECS task found for $ECS_SERVICE in $ECS_CLUSTER."
+  exit 1
 fi
 
-sudo apt update && sudo apt upgrade -y
-sudo apt install docker.io docker-compose -y
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker $USER
+ENI_ID=$(aws ecs describe-tasks \
+  --cluster "$ECS_CLUSTER" \
+  --tasks "$TASK_ARN" \
+  --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value|[0]' \
+  --output text \
+  --region "$AWS_REGION")
 
-echo "✅ Docker installed and configured."
+PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+  --network-interface-ids "$ENI_ID" \
+  --query 'NetworkInterfaces[0].Association.PublicIp' \
+  --output text \
+  --region "$AWS_REGION")
 
-# 2. Setup environment
-echo "🌐 Setting up environment..."
-EC2_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
-if [ -z "$EC2_IP" ]; then
-    read -p "Enter your EC2 Public IP: " EC2_IP
-fi
+ALB_DNS=$(aws elbv2 describe-load-balancers \
+  --names "$ALB_NAME" \
+  --query 'LoadBalancers[0].DNSName' \
+  --output text \
+  --region "$AWS_REGION")
 
-# Create client .env if it doesn't exist
-echo "NEXT_PUBLIC_API_URL=http://$EC2_IP/api" > client/.env
-echo "✅ Client environment configured with IP: $EC2_IP"
+APP_URL="http://$ALB_DNS"
+HEALTH_URL="$APP_URL/api/health"
 
-# 3. Build and Start Services
-echo "🏗️ Building and starting containers (this may take a few minutes)..."
-sudo docker-compose -f docker-compose.prod.yml up -d --build
+echo "SparkSpirit ECS deployment"
+echo "Cluster: $ECS_CLUSTER"
+echo "Service: $ECS_SERVICE"
+echo "Task: $TASK_ARN"
+echo "Task public IP: $PUBLIC_IP"
+echo "Load balancer: $ALB_NAME"
+echo "Frontend: $APP_URL"
+echo "Health: $HEALTH_URL"
+echo
 
-echo "----------------------------------------------------"
-echo "🎉 Deployment Complete!"
-echo "📍 Access your app at: http://$EC2_IP"
-echo "📍 Backend API health: http://$EC2_IP/api/health"
-echo "----------------------------------------------------"
-echo "To view logs, run: sudo docker-compose -f docker-compose.prod.yml logs -f"
+curl -fsS "$HEALTH_URL"
+echo

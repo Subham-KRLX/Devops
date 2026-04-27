@@ -1,24 +1,39 @@
 # SparkSpirit Shop
 
-Premium fashion e-commerce built with Next.js + Express, focused on high-end editorial design and production-ready developer workflow.
+Premium fashion e-commerce built with Next.js, Express, Prisma, and a production DevOps workflow on AWS ECS/Fargate.
 
-## Visual Preview
+## Live Deployment
 
-### Hero Landing
-Immersive hero with layered campaign imagery and bold serif typography.
-![SparkSpirit hero section](docs/images/hero-landing.png)
+- Frontend: [http://sparkspirit-alb-1404552313.us-east-1.elb.amazonaws.com](http://sparkspirit-alb-1404552313.us-east-1.elb.amazonaws.com)
+- Backend health check: [http://sparkspirit-alb-1404552313.us-east-1.elb.amazonaws.com/api/health](http://sparkspirit-alb-1404552313.us-east-1.elb.amazonaws.com/api/health)
+- GitHub repository: [https://github.com/Subham-KRLX/Devops](https://github.com/Subham-KRLX/Devops)
+- CI/CD workflow: `.github/workflows/deploy-ecs.yml`
 
-### Featured Pieces
-Three-column showcase designed for premium product scanning.
-![SparkSpirit featured pieces section](docs/images/featured-pieces.png)
+The production deployment runs on Amazon ECS with Fargate. Images are built by GitHub Actions, tagged with both `latest` and the commit SHA, pushed to Amazon ECR, and deployed to the ECS service.
 
-### Editorial Story
-Split-layout narrative section blending brand voice and campaign photography.
-![SparkSpirit editorial section](docs/images/editorial-story.png)
+## AWS Deployment Summary
 
-### Newsletter + Footer
-Minimal subscription module with structured navigation links.
-![SparkSpirit newsletter and footer section](docs/images/newsletter-footer.png)
+| Area | Resource |
+| --- | --- |
+| Region | `us-east-1` |
+| ECS cluster | `sparkspirit-cluster` |
+| ECS service | `sparkspirit-service` |
+| ECS task definition | `sparkspirit-task` |
+| Launch type | `FARGATE` |
+| Load balancer | `sparkspirit-alb` |
+| Target group | `sparkspirit-tg` |
+| ECR repositories | `sparkspirit-server`, `sparkspirit-client`, `sparkspirit-nginx` |
+| CloudWatch log group | `/ecs/sparkspirit` |
+
+## DevOps Rubric Coverage
+
+- Amazon ECR stores Docker images for the backend, frontend, and Nginx reverse proxy.
+- GitHub Actions authenticates to AWS using repository secrets.
+- The deployment workflow builds Docker images, tags them with `latest` and `${{ github.sha }}`, and pushes them to ECR.
+- ECS runs the application with a Fargate task definition linked to the ECR images.
+- The ECS service maintains one running task behind an internet-facing Application Load Balancer.
+- The task definition includes CloudWatch logging and container health checks.
+- A push to `main` runs the end-to-end GitHub Actions -> ECR -> ECS deployment pipeline.
 
 ## Tech Stack
 
@@ -30,155 +45,145 @@ Minimal subscription module with structured navigation links.
 - Zod validation
 
 ### Frontend
-- Next.js 16 (App Router)
+- Next.js 16 App Router
 - TypeScript
 - Tailwind CSS
 - Zustand
 
 ### DevOps and Quality
-- Docker, Docker Compose
-- GitHub Actions CI
+- Docker and Docker Compose
+- Amazon ECR
+- Amazon ECS with Fargate
+- CloudWatch logs
+- GitHub Actions CI/CD
 - Jest + Supertest
 - Vitest
 - Playwright
 
 ## Core Features
-- User registration/login
+
+- User registration and login
 - Product and category CRUD
 - Order flow support
 - Responsive storefront UI
-- Dockerized deployment
-- Automated lint + test workflows
+- Dockerized full-stack runtime
+- Automated lint, test, build, and deployment workflows
 
 ## Project Structure
 
 ```text
 Devops/
 ├── client/                    # Next.js frontend
-│   ├── src/app/               # Routes/pages
+│   ├── src/app/               # App Router pages
 │   ├── src/components/        # Reusable UI
 │   ├── src/store/             # Zustand state
 │   └── Dockerfile
 ├── server/                    # Express backend
 │   ├── src/controllers/       # Business logic
 │   ├── src/routes/            # API routes
-│   ├── src/middleware/        # Auth/validation/errors
-│   ├── prisma/                # Schema + migrations
+│   ├── src/middleware/        # Auth, validation, errors
+│   ├── prisma/                # Schema and migrations
 │   └── Dockerfile
-├── docker-compose.yml
-├── docker-compose.prod.yml
-├── QUICKSTART.md
+├── nginx/                     # ECS reverse proxy image
+├── .github/workflows/         # CI and ECS deployment workflows
+├── docker-compose.yml         # Local Docker development
+├── docker-compose.prod.yml    # Single-host Docker Compose runtime
+├── ecs-task-definition.json   # ECS task definition template
+├── deploy.sh                  # ECS deployment status helper
 └── README.md
 ```
 
-## Getting Started
+## Local Development
 
 ### Prerequisites
+
 - Node.js 20+
 - npm
-- Docker + Docker Compose (optional)
+- Docker and Docker Compose
 
-### Local Development
+### Run Without Docker
 
-1. Clone project:
 ```bash
 git clone https://github.com/Subham-KRLX/Devops.git
 cd Devops
-```
 
-2. Install dependencies:
-```bash
-cd server && npm install
-cd ../client && npm install
-```
-
-3. Start backend:
-```bash
-cd ../server
+cd server
+npm install
 PORT=5001 npm run dev
 ```
 
-4. Start frontend (new terminal):
+In a second terminal:
+
 ```bash
 cd client
+npm install
 npm run dev
 ```
 
-5. Open app:
+Open:
+
 ```text
 http://localhost:3000
 ```
 
-### Docker Development
+### Run With Docker
 
 ```bash
 docker-compose up --build
 ```
+
+Local URLs:
 
 ```text
 Frontend: http://localhost:3001
 Backend:  http://localhost:5001
 ```
 
+Stop containers:
+
 ```bash
 docker-compose down
 ```
 
-## Testing
-
-### Backend
-```bash
-cd server
-npm test
-```
-
-### Frontend
-```bash
-cd client
-npm test
-```
-
-### E2E
-```bash
-npm run test:e2e
-# or
-npx playwright test
-npx playwright test --headed
-npx playwright test --ui
-npx playwright show-report
-```
-
 ## API Overview
 
-Base URL:
+Production base URL:
+
+```text
+http://sparkspirit-alb-1404552313.us-east-1.elb.amazonaws.com/api
+```
+
+Local base URL:
+
 ```text
 http://localhost:5001/api
 ```
 
 ### Auth
-- POST /auth/register
-- POST /auth/login
+- `POST /auth/register`
+- `POST /auth/login`
 
 ### Products
-- GET /products
-- GET /products/:id
-- POST /products
-- PUT /products/:id
-- DELETE /products/:id
+- `GET /products`
+- `GET /products/:id`
+- `POST /products`
+- `PUT /products/:id`
+- `DELETE /products/:id`
 
 ### Categories
-- GET /categories
-- GET /categories/:id
-- POST /categories
+- `GET /categories`
+- `GET /categories/:id`
+- `POST /categories`
 
 ### Orders
-- GET /orders
-- GET /orders/:id
-- POST /orders
+- `GET /orders`
+- `GET /orders/:id`
+- `POST /orders`
 
 ## Environment Variables
 
-### Backend (`server/.env`)
+Backend local environment, `server/.env`:
+
 ```env
 DATABASE_URL="file:./dev.db"
 JWT_SECRET="your-secret-key"
@@ -186,9 +191,73 @@ PORT=5001
 NODE_ENV=development
 ```
 
-### Frontend (`client/.env.local`)
+Frontend local environment, `client/.env.local`:
+
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5001/api
+```
+
+For ECS, the frontend is built with:
+
+```env
+NEXT_PUBLIC_API_URL=/api
+```
+
+That lets the browser call the API through the same ECS-hosted Nginx endpoint.
+
+## CI/CD Deployment
+
+The ECS deployment workflow is in `.github/workflows/deploy-ecs.yml`.
+
+Required GitHub Actions secrets:
+
+```text
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_SESSION_TOKEN
+AWS_ACCOUNT_ID
+```
+
+Deployment flow:
+
+1. Push to `main`.
+2. GitHub Actions logs in to Amazon ECR.
+3. The workflow builds backend, frontend, and Nginx Docker images.
+4. Images are tagged with `latest` and the commit SHA.
+5. Images are pushed to ECR.
+6. The ECS task definition is rendered with the new image tags.
+7. The ECS service is updated and waits for service stability.
+
+Because this project is deployed from an AWS lab account, `AWS_SESSION_TOKEN` may expire and need to be refreshed in GitHub repository secrets.
+
+## Deployment Status Helper
+
+Use this script to print the current ECS public URL and health status:
+
+```bash
+./deploy.sh
+```
+
+## Testing
+
+### Backend
+
+```bash
+cd server
+npm test
+```
+
+### Frontend
+
+```bash
+cd client
+npm test
+```
+
+### End-to-End
+
+```bash
+npm run test:e2e
 ```
 
 ## Prisma Database
@@ -200,43 +269,28 @@ npx prisma studio
 npx prisma migrate reset
 ```
 
-## Deployment (Docker)
-
-```bash
-docker build -t sparkspirit-server ./server
-docker build -t sparkspirit-client ./client
-
-docker tag sparkspirit-server your-registry/sparkspirit-server:1.0
-docker push your-registry/sparkspirit-server:1.0
-
-docker run -p 5001:5000 your-registry/sparkspirit-server:1.0
-```
-
 ## Troubleshooting
 
+Free busy local ports:
+
 ```bash
-# Free busy ports
 lsof -i :5001 | grep -v COMMAND | awk '{print $2}' | xargs kill -9
 lsof -i :3000 | grep -v COMMAND | awk '{print $2}' | xargs kill -9
+```
 
-# Clear Next.js cache
+Clear Next.js cache:
+
+```bash
 rm -rf client/.next
+```
 
-# Reset local DB
+Reset local database:
+
+```bash
 cd server
 npx prisma migrate reset
 ```
 
-## Documentation
-- QUICKSTART.md
-- docs/
-
-## Contributing
-1. Fork the repository
-2. Create branch: `git checkout -b feature/your-feature`
-3. Commit: `git commit -m "feat: your change"`
-4. Push: `git push origin feature/your-feature`
-5. Open a pull request
-
 ## License
+
 MIT
